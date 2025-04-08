@@ -5,9 +5,8 @@ import Navbar from "./navbar";
 import Sidebar from "./sidebar";
 import TopConversations from "./top-conversations";
 import TopContactReasons from "./top-contact-reasons";
-import UnifiedMetrics from "./unified-metrics";
 import Icon from "./icons/icon";
-
+import UnifiedMetrics from "./unified-metrics";
 export type { IconProps } from "./icons/icons";
 
 export {
