@@ -55,62 +55,21 @@ const Sidebar = () => {
       </div>
       <ul className="my-4 flex flex-col items-center gap-y-3">
         {navigationItems.map((item) => (
-          <li key={item.title}>
-            <NavLink to={item.path}>
-              {({ isActive }) => (
-                <Tooltip
-                  classNames={{
-                    content: "bg-primary-50 rounded-md text-primary-500",
-                  }}
-                  content={item.title}
-                  placement="right"
-                >
-                  <Button
-                    isIconOnly
-                    radius="sm"
-                    color="primary"
-                    variant={isActive ? "shadow" : "light"}
-                    className={cn({
-                      "text-white opacity-85": isActive,
-                      "text-black opacity-75": !isActive,
-                    })}
-                  >
-                    {item.icon}
-                  </Button>
-                </Tooltip>
-              )}
-            </NavLink>
-          </li>
+          <NavItem item={item} key={item.title} />
         ))}
       </ul>
       <ul className="mt-auto mb-4 flex flex-col items-center gap-y-3">
+        <NavItemContent
+          external
+          item={{
+            icon: <Icon name="github" size={24} />,
+            title: "View on Github",
+            path: "https://github.com/9267aakashsharma/sentisum-app",
+            description: "View on Github",
+          }}
+        />
         {bottomNavigationItems.map((item) => (
-          <li key={item.title}>
-            <NavLink to={item.path}>
-              {({ isActive }) => (
-                <Tooltip
-                  classNames={{
-                    content: "bg-primary-50 rounded-md text-primary-500",
-                  }}
-                  content={item.title}
-                  placement="right"
-                >
-                  <Button
-                    isIconOnly
-                    radius="sm"
-                    color="primary"
-                    variant={isActive ? "shadow" : "light"}
-                    className={cn({
-                      "text-white opacity-85": isActive,
-                      "text-black opacity-75": !isActive,
-                    })}
-                  >
-                    {item.icon}
-                  </Button>
-                </Tooltip>
-              )}
-            </NavLink>
-          </li>
+          <NavItem item={item} key={item.title} />
         ))}
       </ul>
     </nav>
@@ -118,3 +77,60 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
+
+const NavItem = ({
+  item,
+  external = false,
+}: {
+  external?: boolean;
+  item: NavigationItem;
+}) => {
+  return (
+    <li key={item.title}>
+      <NavLink to={item.path}>
+        {({ isActive }) => (
+          <NavItemContent external={external} item={item} isActive={isActive} />
+        )}
+      </NavLink>
+    </li>
+  );
+};
+
+const NavItemContent = ({
+  item,
+  external = false,
+  isActive = false,
+}: {
+  isActive?: boolean;
+  external?: boolean;
+  item: NavigationItem;
+}) => {
+  return (
+    <Tooltip
+      classNames={{
+        content: "bg-primary-50 rounded-md text-primary-500",
+      }}
+      content={item.title}
+      placement="right"
+    >
+      <Button
+        isIconOnly
+        radius="sm"
+        color="primary"
+        variant={isActive ? "shadow" : "light"}
+        className={cn({
+          "text-white opacity-85": isActive,
+          "text-black opacity-75": !isActive,
+        })}
+      >
+        {external && item.path ? (
+          <a href={item.path} target="_blank" rel="noreferrer noopener">
+            {item.icon}
+          </a>
+        ) : (
+          item.icon
+        )}
+      </Button>
+    </Tooltip>
+  );
+};
